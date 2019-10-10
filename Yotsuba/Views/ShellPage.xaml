@@ -63,6 +63,7 @@
                     <NavigationViewItem x:Name="ExportBoard"
                                         Icon="Share"
                                         Content="Export Board"
+                                        Tapped="ExportBoard_Tapped"
                                         Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
                     <NavigationViewItem x:Name="ReportHourButton"
                                         Icon="Clock"

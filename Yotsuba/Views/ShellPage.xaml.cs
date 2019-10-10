@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using Yotsuba.Core.Models;
 using System.Collections.Generic;
 using Yotsuba.Core.Utilities;
+using Windows.Storage;
 
 namespace Yotsuba.Views
 {
@@ -398,6 +399,40 @@ namespace Yotsuba.Views
 
             // Close Report Hour pane
             ReportHourSplitView.IsPaneOpen = false;
+        }
+
+        private async void ExportBoard_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            string fileName = $"{SelectedBoard.BoardName}.docx";
+
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            string filepath = $"{localFolder.Path}/{fileName}";
+            string authorname = DataAccess.GetAuthorName();
+            var writer = new DataOutput(SelectedBoard, authorname, filepath);
+            writer.WriteToFile();
+
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
+            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            folderPicker.FileTypeFilter.Add("*");
+
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                // Application now has read/write access to all contents in the picked folder
+                // (including other sub-folder contents)
+                Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
+
+                StorageFile newFile = await localFolder.GetFileAsync(fileName);
+                await newFile.MoveAsync(folder, fileName, NameCollisionOption.ReplaceExisting);
+
+                // Add option to make the explorer select the newly created file
+                var ItemToSelect = await folder.GetFileAsync(fileName);
+                var option = new FolderLauncherOptions();
+                option.ItemsToSelect.Add(ItemToSelect);
+
+                // Open system file explorer to where the user has saved the word file
+                await Launcher.LaunchFolderAsync(folder, option);
+            }
         }
     }
 }
