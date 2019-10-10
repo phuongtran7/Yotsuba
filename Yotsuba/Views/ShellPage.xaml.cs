@@ -95,9 +95,13 @@ namespace Yotsuba.Views
                 return;
             }
 
-            // Get the selected Board in the BoardList and then send it over to the BoardPage for display
-            SelectedBoard = BoardList.Where(b => b.BoardName == (string)args.InvokedItem).FirstOrDefault();
-            NavigationService.Navigate(typeof(BoardPage), SelectedBoard.TaskList);
+            // For some reason if the Board is already selected and select it again the InvokedItem is null.
+            if (args.InvokedItem != null)
+            {
+                // Get the selected Board in the BoardList and then send it over to the BoardPage for display
+                SelectedBoard = BoardList.Where(b => b.BoardName == (string)args.InvokedItem).FirstOrDefault();
+                NavigationService.Navigate(typeof(BoardPage), SelectedBoard.TaskList);
+            }
         }
 
         private static KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)
