@@ -473,13 +473,15 @@ namespace Yotsuba.Views
                 //if ()
                 {
                     // Get the newly add item index
-                    int index = sender.Items
-                                .Cast<ComboBoxItem>()
-                                .Select(c => (string)c.Content)
-                                .ToList()
-                                .IndexOf(args.Text);
+                    //int index = sender.Items
+                    //            .Cast<ComboBoxItem>()
+                    //            .Select(c => (string)c.Content)
+                    //            .ToList()
+                    //            .IndexOf(args.Text);
 
-                    sender.SelectedIndex = index;
+                    //sender.SelectedIndex = index;
+
+                    var item = sender.Items.Count;
                 }
 
             }
