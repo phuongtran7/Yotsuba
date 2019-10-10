@@ -9,6 +9,7 @@
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:helpers="using:Yotsuba.Helpers"
     xmlns:views="using:Yotsuba.Views"
+    xmlns:local="using:Yotsuba.Core.Models"
     Loaded="OnLoaded"
     mc:Ignorable="d">
 
@@ -19,6 +20,7 @@
         SelectedItem="{x:Bind Selected, Mode=OneWay}"
         ItemInvoked="OnItemInvoked"
         IsSettingsVisible="True"
+        MenuItemsSource="{x:Bind BoardList, Mode=OneWay}"
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
 
         <winui:NavigationView.MenuItemTemplate>

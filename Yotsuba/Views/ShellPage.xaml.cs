@@ -14,6 +14,8 @@ using WinUI = Microsoft.UI.Xaml.Controls;
 
 using Yotsuba.Helpers;
 using Yotsuba.Services;
+using System.Collections.ObjectModel;
+using Yotsuba.Core.Models;
 
 namespace Yotsuba.Views
 {
@@ -30,11 +32,16 @@ namespace Yotsuba.Views
             set { Set(ref _selected, value); }
         }
 
+        ObservableCollection<BoardModel> BoardList { get; set; }
+
         public ShellPage()
         {
             InitializeComponent();
             DataContext = this;
             Initialize();
+
+            // Test data
+            BoardList.Add(new BoardModel(Guid.NewGuid().GetHashCode(), "Helo World"));
         }
 
         private void Initialize()
@@ -42,6 +49,9 @@ namespace Yotsuba.Views
             NavigationService.Frame = shellFrame;
             NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
+
+            // Init BoardList
+            BoardList = new ObservableCollection<BoardModel>();
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
