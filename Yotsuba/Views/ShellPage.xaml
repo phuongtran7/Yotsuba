@@ -58,6 +58,7 @@
                     <NavigationViewItem x:Name="NewTaskButton"
                                         Icon="Add"
                                         Content="New Task"
+                                        Tapped="NewTaskButton_Tapped"
                                         Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
                     <NavigationViewItem x:Name="ExportBoard"
                                         Icon="Share"
@@ -113,7 +114,7 @@
             </SplitView.Pane>
         </SplitView>
 
-        <!--<SplitView x:Name="NewTask_SplitView"
+        <SplitView x:Name="NewTask_SplitView"
                    IsPaneOpen="False"
                    DisplayMode="Overlay">
             <SplitView.Pane>
@@ -168,7 +169,7 @@
             </SplitView.Pane>
         </SplitView>
 
-        <SplitView x:Name="ReportHourSplitView"
+        <!--<SplitView x:Name="ReportHourSplitView"
                    IsPaneOpen="False"
                    OpenPaneLength="320"
                    DisplayMode="Overlay">

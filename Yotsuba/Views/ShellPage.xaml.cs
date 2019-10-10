@@ -200,5 +200,64 @@ namespace Yotsuba.Views
             EditBoardNameTextBox.Text = string.Empty;
             EditBoard_SplitView.IsPaneOpen = false;
         }
+
+        private void NewTaskButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            NewTask_SplitView.IsPaneOpen = true;
+        }
+
+        private void NewTaskSaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dates = WeekPicker.SelectedDates;
+            var sorted = dates.OrderBy(x => x.Date); // Sort the selected dates
+            string FormattedWeekString = $"{sorted.First().ToString("MM/dd/yyyy")} - {sorted.Last().ToString("MM/dd/yyyy")}";
+
+            var new_task_id = Guid.NewGuid().GetHashCode();
+            SelectedBoard.TaskList.Add(new TaskModel
+            {
+                ID = new_task_id,
+                BoardID = SelectedBoard.ID,
+                Title = NewTaskNameTextBox.Text,
+                Description = NewTaskDescriptionTextBox.Text,
+                Tag = NewTaskTagTextBox.Text,
+                Category = FormattedWeekString,
+            });
+
+            // Update Database
+            //DataAccess.AddTaskToBoard(new_task_id, SelectedBoard.ID, NewTaskNameTextBox.Text, NewTaskDescriptionTextBox.Text, NewTaskTagTextBox.Text, FormattedWeekString);
+
+            // Clear the filled data
+            NewTaskNameTextBox.Text = string.Empty;
+            NewTaskDescriptionTextBox.Text = string.Empty;
+            NewTaskTagTextBox.Text = string.Empty;
+            WeekPicker.SelectedDates.Clear();
+
+            // Close SplitView pane
+            NewTask_SplitView.IsPaneOpen = false;
+
+            NavigationService.Navigate(typeof(BoardPage), SelectedBoard);
+        }
+
+        private void NewTaskCancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Clear the filled data
+            NewTaskNameTextBox.Text = string.Empty;
+            NewTaskDescriptionTextBox.Text = string.Empty;
+            NewTaskTagTextBox.Text = string.Empty;
+            WeekPicker.SelectedDates.Clear();
+
+            // Close SplitView pane
+            NewTask_SplitView.IsPaneOpen = false;
+        }
+
+        private void WeekPicker_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        {
+            // Only allow two dates to be selected
+            if (sender.SelectedDates.Count > 2)
+            {
+                // Remove the first selected
+                sender.SelectedDates.RemoveAt(0);
+            }
+        }
     }
 }
