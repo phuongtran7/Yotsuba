@@ -17,7 +17,8 @@
         <helpers:NullToVisibilityConverter x:Key="NullToVisibility"/>
     </Page.Resources>
 
-    <winui:NavigationView
+    <Grid>
+        <winui:NavigationView
         x:Name="navigationView"
         IsBackButtonVisible="Collapsed"
         IsBackEnabled="False"
@@ -27,40 +28,145 @@
         MenuItemsSource="{x:Bind BoardList, Mode=OneWay}"
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
 
-        <winui:NavigationView.MenuItemTemplate>
-            <DataTemplate x:DataType="local:BoardModel">
-                <winui:NavigationViewItem Content="{x:Bind BoardName, Mode=OneWay}" Tag="{x:Bind BoardName, Mode=OneWay}" Icon="OutLineStar"/>
-            </DataTemplate>
-        </winui:NavigationView.MenuItemTemplate>
+            <winui:NavigationView.MenuItemTemplate>
+                <DataTemplate x:DataType="local:BoardModel">
+                    <winui:NavigationViewItem Content="{x:Bind BoardName, Mode=OneWay}" Tag="{x:Bind BoardName, Mode=OneWay}" Icon="OutLineStar"/>
+                </DataTemplate>
+            </winui:NavigationView.MenuItemTemplate>
 
-        <i:Interaction.Behaviors>
-            <behaviors:NavigationViewHeaderBehavior
+            <i:Interaction.Behaviors>
+                <behaviors:NavigationViewHeaderBehavior
                 DefaultHeader="{x:Bind SelectedBoard.BoardName, Mode=OneWay}">
-                <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <TextBlock
+                    <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock
                                 Text="{Binding}"
                                 Style="{ThemeResource TitleTextBlockStyle}"
                                 Margin="{StaticResource SmallLeftRightMargin}" />
-                        </Grid>
-                    </DataTemplate>
-                </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
-            </behaviors:NavigationViewHeaderBehavior>
-        </i:Interaction.Behaviors>
-        <Grid>
-            <Frame x:Name="shellFrame" Padding="12,0,12,12"/>
-        </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
+                </behaviors:NavigationViewHeaderBehavior>
+            </i:Interaction.Behaviors>
+            <Grid>
+                <Frame x:Name="shellFrame" Padding="12,0,12,12"/>
+            </Grid>
 
-        <winui:NavigationView.PaneFooter>
-            <StackPanel>
-                <NavigationViewItem x:Name="NewTaskButton" Icon="Add" Content="New Task" Tapped="NewTaskButton_Tapped" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
-                <NavigationViewItem x:Name="ExportBoard" Icon="Share" Content="Export Board" Tapped="ExportBoard_Tapped" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
-                <NavigationViewItem x:Name="ReportHourButton" Icon="Clock" Content="Report Hour" Tapped="ReportHourButton_Tapped" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
-                <NavigationViewItem x:Name="EditBoardButton" Icon="Edit" Content="Edit Board" Tapped="EditBoardButton_Tapped" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
-                <NavigationViewItem x:Name="NewBoardButton" Icon="NewFolder" Content = "New Board" Tapped="NewBoardButton_Tapped"/>
-            </StackPanel>
-        </winui:NavigationView.PaneFooter>
+            <winui:NavigationView.PaneFooter>
+                <StackPanel>
+                    <NavigationViewItem x:Name="NewTaskButton" Icon="Add" Content="New Task" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                    <NavigationViewItem x:Name="ExportBoard" Icon="Share" Content="Export Board" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                    <NavigationViewItem x:Name="ReportHourButton" Icon="Clock" Content="Report Hour" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                    <NavigationViewItem x:Name="EditBoardButton" Icon="Edit" Content="Edit Board" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                    <NavigationViewItem x:Name="NewBoardButton" Icon="NewFolder" Content = "New Board"/>
+                </StackPanel>
+            </winui:NavigationView.PaneFooter>
+        </winui:NavigationView>
 
-    </winui:NavigationView>
+        <!--<SplitView x:Name="NewBoard_SplitView"
+                   IsPaneOpen="False"
+                   OpenPaneLength="320"
+                   DisplayMode="Overlay">
+            <SplitView.Pane>
+                <StackPanel Margin="10">
+                    <TextBlock Text="New Board" Style="{StaticResource TitleTextBlockStyle}"/>
+                    <TextBox x:Name="NewBoardNameTextBox" Header= "Name" Margin="10" Width="256" HorizontalAlignment="Left" InputScope=" AlphanumericFullWidth"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Save" Margin="24" Click="NewBoardSaveButton_Clicked"/>
+                        <Button Content="Cancel" Margin="24"/>
+                    </StackPanel>
+                </StackPanel>
+            </SplitView.Pane>
+        </SplitView>
+
+        <SplitView x:Name="EditBoard_SplitView"
+                   IsPaneOpen="False"
+                   OpenPaneLength="320"
+                   DisplayMode="Overlay">
+            <SplitView.Pane>
+                <StackPanel Margin="10">
+                    <TextBlock Text="Edit Board" Style="{StaticResource TitleTextBlockStyle}"/>
+                    <TextBox x:Name="EditBoardNameTextBox" Header= "Name" Margin="10" Width="256" HorizontalAlignment="Left" InputScope="AlphanumericFullWidth"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Save" Margin="24" Click="EditBoardSaveButton_Clicked"/>
+                        <Button Content="Cancel" Margin="24" Click="EditBoardCancelButton_Clicked"/>
+                        <Button Content="Delete" Margin="24" Click="EditBoardDeleteButton_Clicked"/>
+                    </StackPanel>
+                </StackPanel>
+            </SplitView.Pane>
+        </SplitView>
+
+        <SplitView x:Name="NewTask_SplitView"
+                   IsPaneOpen="False"
+                   DisplayMode="Overlay">
+            <SplitView.Pane>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="New Task" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <TextBox x:Name="NewTaskNameTextBox" 
+                             Header= "Name" 
+                             Margin="10"
+                             Width="256" 
+                             MaxWidth="256"
+                             MaxHeight="100"
+                             HorizontalAlignment="Left" 
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             InputScope=" AlphanumericFullWidth"/>
+                        <TextBox x:Name="NewTaskDescriptionTextBox" 
+                             Header= "Description" 
+                             Margin="10" 
+                             Height="100" 
+                             MaxHeight="250"
+                             Width="256" 
+                             MaxWidth="256"
+                             HorizontalAlignment="Left" 
+                             InputScope=" AlphanumericFullWidth" 
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+                        <TextBox x:Name="NewTaskTagTextBox" 
+                             Header= "Tag" 
+                             Margin="10" 
+                             Width="256" 
+                             HorizontalAlignment="Left" 
+                             InputScope=" AlphanumericFullWidth"/>
+                        <TextBlock x:Name="NewTaskCategoryTextBox" 
+                             Margin="10" 
+                             Width="256" 
+                             HorizontalAlignment="Left"
+                             Text="In the week of"/>
+                        <CalendarView DisplayMode="Month" 
+                                  x:Name="WeekPicker" 
+                                  SelectionMode="Multiple" 
+                                  HorizontalAlignment="Center"
+                                  SelectedDatesChanged="WeekPicker_SelectedDatesChanged"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Save" Margin="10" Click="NewTaskSaveButton_Click"/>
+                            <Button Content="Cancel" Margin="10" Click="NewTaskCancelButton_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </SplitView.Pane>
+        </SplitView>
+
+        <SplitView x:Name="ReportHourSplitView"
+                   IsPaneOpen="False"
+                   OpenPaneLength="320"
+                   DisplayMode="Overlay">
+            <SplitView.Pane>
+                <ScrollViewer>
+                    <StackPanel x:Name="ReportHourStackPane"
+                                Margin="10">
+                    </StackPanel>
+                </ScrollViewer>
+            </SplitView.Pane>
+        </SplitView>-->
+
+        <winui:TeachingTip x:Name="HourIsEmptyTip"
+                        Subtitle="Please make sure to filled the hour before saving.">
+        </winui:TeachingTip>
+    </Grid>
 </Page>
