@@ -269,6 +269,12 @@ namespace Yotsuba.Views
 
         private void ReportHourButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            if (ReportHourStackPane.Children.Count != 0)
+            {
+                // Remove all the children in the stackpane
+                ReportHourStackPane.Children.Clear();
+            }
+
             List<Tuple<string, HourModel>> ListOfHour = DataAccess.GetAllHourInBoard(SelectedBoard.ID);
 
             TextBlock titleTextBlock = new TextBlock
