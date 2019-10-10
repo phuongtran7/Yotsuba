@@ -153,7 +153,6 @@
                              ItemsSource="{x:Bind AvailableTags, Mode=OneWay}"
                              SelectedItem="{x:Bind CurrentTag, Mode=TwoWay}"
                              TextSubmitted="TagSelector_TextSubmitted"
-                             SelectionChanged="TagSelector_SelectionChanged"
                              Margin="10"/>
                         <TextBlock x:Name="NewTaskCategoryTextBox" 
                              Margin="10" 

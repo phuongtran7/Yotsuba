@@ -28,9 +28,23 @@ namespace Yotsuba.Views
             }
         }
 
+        private HashSet<string> _availableTags;
+        public HashSet<string> AvailableTags
+        {
+            get { return _availableTags; }
+            set
+            {
+                _availableTags = value;
+                OnPropertyChanged("AvailableTags");
+            }
+        }
+
+        public string CurrentTag { get; set; }
+
         public BoardPage()
         {
             InitializeComponent();
+            AvailableTags = new HashSet<string>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -84,11 +98,22 @@ namespace Yotsuba.Views
 
         private void OnItemGridViewItemClick(object sender, ItemClickEventArgs e)
         {
+            AvailableTags = new HashSet<string>(Items.Select(t => t.Tag).ToList());
+
             SelectedTask = (TaskModel)e.ClickedItem;
 
             EditTaskName_TextBox.Text = SelectedTask.Title;
             EditTaskDescription_TextBox.Text = SelectedTask.Description;
-            EditTaskTagTextBox.Text = SelectedTask.Tag;
+            //EditTaskTagTextBox.Text = SelectedTask.Tag;
+
+            foreach (var item in TagSelector.Items)
+            {
+                if (item.ToString() == SelectedTask.Tag)
+                {
+                    TagSelector.SelectedItem = item;
+                    break;
+                }
+            }
 
             EditTaskSplitView.IsPaneOpen = true;
         }
@@ -119,7 +144,8 @@ namespace Yotsuba.Views
         {
             SelectedTask.Title = EditTaskName_TextBox.Text;
             SelectedTask.Description = EditTaskDescription_TextBox.Text;
-            SelectedTask.Tag = EditTaskTagTextBox.Text;
+            //SelectedTask.Tag = EditTaskTagTextBox.Text;
+            SelectedTask.Tag = TagSelector.SelectedItem.ToString();
 
             // If choose new week then replace it
             if (WeekPicker.SelectedDates.Count != 0)
@@ -132,7 +158,8 @@ namespace Yotsuba.Views
 
             EditTaskName_TextBox.Text = string.Empty;
             EditTaskDescription_TextBox.Text = string.Empty;
-            EditTaskTagTextBox.Text = string.Empty;
+            //EditTaskTagTextBox.Text = string.Empty;
+            TagSelector.SelectedItem = null;
             WeekPicker.SelectedDates.Clear();
 
             itemsCVS.Source = FormatData();
@@ -149,7 +176,8 @@ namespace Yotsuba.Views
             // Discard everything
             EditTaskName_TextBox.Text = string.Empty;
             EditTaskDescription_TextBox.Text = string.Empty;
-            EditTaskTagTextBox.Text = string.Empty;
+            //EditTaskTagTextBox.Text = string.Empty;
+            TagSelector.SelectedItem = null;
             WeekPicker.SelectedDates.Clear();
 
             // Close SplitView
@@ -188,6 +216,19 @@ namespace Yotsuba.Views
                 Items.Remove(SelectedTask);
                 itemsCVS.Source = FormatData();
                 EditTaskSplitView.IsPaneOpen = false;
+            }
+        }
+
+        private void TagSelector_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
+        {
+            if (!string.IsNullOrEmpty(args.Text))
+            {
+                AvailableTags.Add(args.Text);
+                CurrentTag = args.Text;
+            }
+            else
+            {
+                args.Handled = true;
             }
         }
     }

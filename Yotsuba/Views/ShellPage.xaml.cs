@@ -477,12 +477,6 @@ namespace Yotsuba.Views
             {
                 args.Handled = true;
             }
-
-        }
-
-        private void TagSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }
