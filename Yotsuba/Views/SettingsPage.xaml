@@ -87,10 +87,15 @@
                 <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
                 <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind VersionDescription, Mode=OneWay}" />
+                
                 <TextBlock
                     x:Uid="Settings_AboutDescription"
                     Margin="{StaticResource XSmallTopMargin}"
                     Style="{ThemeResource BodyTextBlockStyle}" />
+
+                <TextBlock x:Uid="Creator" Style="{ThemeResource BodyTextBlockStyle}" Margin="{StaticResource XSmallTopMargin}"/>
+                
+                <HyperlinkButton x:Uid="GitHub_Link" Margin="{StaticResource XSmallTopMargin}" />
 
                 <!--<HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />-->
             </StackPanel>
