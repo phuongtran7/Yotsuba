@@ -71,13 +71,6 @@
                              AcceptsReturn="True"
                              TextWrapping="Wrap"
                              ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-                        <!--<TextBox x:Name="EditTaskTagTextBox" 
-                             Header= "Tag" 
-                             Margin="10" 
-                             Width="256" 
-                             HorizontalAlignment="Left" 
-                             InputScope=" AlphanumericFullWidth"/>-->
-                        
                         <ComboBox x:Name="TagSelector"
                              IsEditable="true"
                              Header="Belongs to:" 
@@ -87,7 +80,6 @@
                              SelectedItem="{x:Bind CurrentTag, Mode=TwoWay}"
                              TextSubmitted="TagSelector_TextSubmitted"
                              Margin="10"/>
-
                         <TextBlock x:Name="EditTaskCategoryTextBox" 
                              Margin="10" 
                              Width="256" 

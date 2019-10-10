@@ -99,13 +99,9 @@ namespace Yotsuba.Views
         private void OnItemGridViewItemClick(object sender, ItemClickEventArgs e)
         {
             AvailableTags = new HashSet<string>(Items.Select(t => t.Tag).ToList());
-
             SelectedTask = (TaskModel)e.ClickedItem;
-
             EditTaskName_TextBox.Text = SelectedTask.Title;
             EditTaskDescription_TextBox.Text = SelectedTask.Description;
-            //EditTaskTagTextBox.Text = SelectedTask.Tag;
-
             foreach (var item in TagSelector.Items)
             {
                 if (item.ToString() == SelectedTask.Tag)
@@ -144,7 +140,6 @@ namespace Yotsuba.Views
         {
             SelectedTask.Title = EditTaskName_TextBox.Text;
             SelectedTask.Description = EditTaskDescription_TextBox.Text;
-            //SelectedTask.Tag = EditTaskTagTextBox.Text;
             SelectedTask.Tag = TagSelector.SelectedItem.ToString();
 
             // If choose new week then replace it
@@ -158,7 +153,6 @@ namespace Yotsuba.Views
 
             EditTaskName_TextBox.Text = string.Empty;
             EditTaskDescription_TextBox.Text = string.Empty;
-            //EditTaskTagTextBox.Text = string.Empty;
             TagSelector.SelectedItem = null;
             WeekPicker.SelectedDates.Clear();
 
@@ -176,7 +170,6 @@ namespace Yotsuba.Views
             // Discard everything
             EditTaskName_TextBox.Text = string.Empty;
             EditTaskDescription_TextBox.Text = string.Empty;
-            //EditTaskTagTextBox.Text = string.Empty;
             TagSelector.SelectedItem = null;
             WeekPicker.SelectedDates.Clear();
 
