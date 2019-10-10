@@ -15,6 +15,18 @@ namespace Yotsuba.Views
     {
         public ObservableCollection<TaskModel> Items { get; set; }
 
+        private TaskModel _selectedTask;
+
+        public TaskModel SelectedTask
+        {
+            get { return _selectedTask; }
+            set
+            {
+                Set(ref _selectedTask, value);
+                OnPropertyChanged("SelectedTask");
+            }
+        }
+
         public BoardPage()
         {
             InitializeComponent();
@@ -71,14 +83,13 @@ namespace Yotsuba.Views
 
         private void OnItemGridViewItemClick(object sender, ItemClickEventArgs e)
         {
-            var item = (TaskModel)e.ClickedItem;
+            SelectedTask = (TaskModel)e.ClickedItem;
 
-            //EditTaskName_TextBox.Text = item.Title;
-            //EditTaskDescription_TextBox.Text = item.Description;
-            //EditTaskTagTextBox.Text = item.Tag;
-            //CurrentEditTaskID = item.ID;
+            EditTaskName_TextBox.Text = SelectedTask.Title;
+            EditTaskDescription_TextBox.Text = SelectedTask.Description;
+            EditTaskTagTextBox.Text = SelectedTask.Tag;
 
-            //EditTaskSplitView.IsPaneOpen = true;
+            EditTaskSplitView.IsPaneOpen = true;
         }
 
         private void OnItemGridViewSizeChanged(object sender, SizeChangedEventArgs e)
@@ -101,6 +112,82 @@ namespace Yotsuba.Views
         private bool GetIsNarrowLayoutState()
         {
             return LayoutVisualStates.CurrentState == NarrowLayout;
+        }
+
+        private void EditTaskSaveButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            SelectedTask.Title = EditTaskName_TextBox.Text;
+            SelectedTask.Description = EditTaskDescription_TextBox.Text;
+            SelectedTask.Tag = EditTaskTagTextBox.Text;
+
+            // If choose new week then replace it
+            if (WeekPicker.SelectedDates.Count != 0)
+            {
+                var dates = WeekPicker.SelectedDates;
+                var sorted = dates.OrderBy(x => x.Date); // Sort the selected dates
+                string FormattedWeekString = $"{sorted.First().ToString("MM/dd/yyyy")} - {sorted.Last().ToString("MM/dd/yyyy")}";
+                SelectedTask.Category = FormattedWeekString;
+            }
+
+            EditTaskName_TextBox.Text = string.Empty;
+            EditTaskDescription_TextBox.Text = string.Empty;
+            EditTaskTagTextBox.Text = string.Empty;
+            WeekPicker.SelectedDates.Clear();
+
+            itemsCVS.Source = FormatData();
+
+            // Update database
+            //DataAccess.UpdateTask(item.ID, item.BoardID, item.Title, item.Description, item.Tag, item.Category);
+
+            // Close SplitView
+            EditTaskSplitView.IsPaneOpen = false;
+        }
+
+        private void EditTaskCancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Discard everything
+            EditTaskName_TextBox.Text = string.Empty;
+            EditTaskDescription_TextBox.Text = string.Empty;
+            EditTaskTagTextBox.Text = string.Empty;
+            WeekPicker.SelectedDates.Clear();
+
+            // Close SplitView
+            EditTaskSplitView.IsPaneOpen = false;
+        }
+
+        private void WeekPicker_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        {
+            // Only allow two dates to be selected
+            if (sender.SelectedDates.Count > 2)
+            {
+                // Remove the first selected
+                sender.SelectedDates.RemoveAt(0);
+            }
+        }
+
+        private async void EditTaskDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog deleteFileDialog = new ContentDialog
+            {
+                Title = "Delete task permanently?",
+                Content = "If you delete this task, you won't be able to recover it. Do you want to delete it?",
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult result = await deleteFileDialog.ShowAsync();
+
+            // Delete the file if the user clicked the primary button.
+            // Otherwise, do nothing.
+            if (result == ContentDialogResult.Primary)
+            {
+                // Update database
+                //DataAccess.DeleteTaskFromBoard(item.BoardID, item.ID);
+
+                Items.Remove(SelectedTask);
+                itemsCVS.Source = FormatData();
+                EditTaskSplitView.IsPaneOpen = false;
+            }
         }
     }
 

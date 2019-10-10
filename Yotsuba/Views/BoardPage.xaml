@@ -40,6 +40,64 @@
             </GridView.GroupStyle>
         </GridView>
 
+        <SplitView x:Name="EditTaskSplitView"
+                   IsPaneOpen="False"
+                   DisplayMode="Overlay"
+                   PanePlacement="Left">
+            <SplitView.Pane>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
+                    <StackPanel Margin="10" Orientation="Vertical">
+                        <TextBlock Text="Edit Task" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <TextBox x:Name="EditTaskName_TextBox" 
+                             Header= "Name" 
+                             Margin="10"
+                             Width="256" 
+                             MaxWidth="256"
+                             MaxHeight="100"
+                             HorizontalAlignment="Left" 
+                             InputScope=" AlphanumericFullWidth"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                        <TextBox x:Name="EditTaskDescription_TextBox" 
+                             Header= "Description" 
+                             Margin="10" 
+                             Height="100" 
+                             MaxHeight="250"
+                             Width="256" 
+                             MaxWidth="256"
+                             HorizontalAlignment="Left" 
+                             InputScope=" AlphanumericFullWidth" 
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                        <TextBox x:Name="EditTaskTagTextBox" 
+                             Header= "Tag" 
+                             Margin="10" 
+                             Width="256" 
+                             HorizontalAlignment="Left" 
+                             InputScope=" AlphanumericFullWidth"/>
+                        <TextBlock x:Name="EditTaskCategoryTextBox" 
+                             Margin="10" 
+                             Width="256" 
+                             HorizontalAlignment="Left"
+                             Text="In the week of"/>
+                        <CalendarView DisplayMode="Month" 
+                                  x:Name="WeekPicker" 
+                                  SelectionMode="Multiple"
+                                  HorizontalAlignment="Center"
+                                  SelectedDatesChanged="WeekPicker_SelectedDatesChanged"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Save" Margin="10" Click="EditTaskSaveButton_Clicked"/>
+                            <Button Content="Cancel" Margin="10" Click="EditTaskCancelButton_Click"/>
+                            <Button Content="Delete" Margin="10" Click="EditTaskDeleteButton_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </SplitView.Pane>
+        </SplitView>
+
         <!--  Visual states reflect the application's window size  -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="LayoutVisualStates">
