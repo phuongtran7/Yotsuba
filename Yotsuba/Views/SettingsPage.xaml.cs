@@ -35,6 +35,17 @@ namespace Yotsuba.Views
             set { Set(ref _versionDescription, value); }
         }
 
+        string _authorname;
+        string AuthorName
+        {
+            get { return _authorname; }
+            set
+            {
+                _authorname = value;
+                OnPropertyChanged("AuthorName");
+            }
+        }
+
         public SettingsPage()
         {
             InitializeComponent();
@@ -43,12 +54,17 @@ namespace Yotsuba.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             await InitializeAsync();
+
+            AuthorNameTextBlock.Visibility = Visibility.Visible;
+            AuthorNameTextBox.Visibility = Visibility.Collapsed;
         }
 
         private async Task InitializeAsync()
         {
             VersionDescription = GetVersionDescription();
             await Task.CompletedTask;
+
+            GetAuthorName();
         }
 
         private string GetVersionDescription()
@@ -59,6 +75,12 @@ namespace Yotsuba.Views
             var version = packageId.Version;
 
             return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+        }
+
+        private void GetAuthorName()
+        {
+            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            AuthorName = (string)localSettings.Values["AuthorName"];
         }
 
         private async void ThemeChanged_CheckedAsync(object sender, RoutedEventArgs e)
@@ -85,5 +107,29 @@ namespace Yotsuba.Views
         }
 
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void AuthorNameTextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                // If Enter key is press the assume that the user want to use the text entered to be author name
+                AuthorName = AuthorNameTextBox.Text;
+
+                AuthorNameTextBlock.Visibility = Visibility.Visible;
+                AuthorNameTextBox.Visibility = Visibility.Collapsed;
+
+                // Update Settings
+                Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                localSettings.Values["AuthorName"] = AuthorName;
+            }
+        }
+
+        private void AuthorNameTextBlock_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            AuthorNameTextBlock.Visibility = Visibility.Collapsed;
+            AuthorNameTextBox.Visibility = Visibility.Visible;
+
+            AuthorName = AuthorNameTextBlock.Text;
+        }
     }
 }

@@ -61,7 +61,37 @@
                     Margin="{StaticResource XSmallTopMargin}"
                     Style="{ThemeResource BodyTextBlockStyle}" />
 
-                <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
+                <!--<HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />-->
+
+                <StackPanel HorizontalAlignment="Left">
+                    <TextBlock
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Margin="0,40,0,0"
+                    FontWeight="Normal"
+                    Text="Document Settings" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="10" Text="Author name:" Style="{ThemeResource BodyTextBlockStyle}"/>
+                        <Grid VerticalAlignment="Center">
+                            <TextBlock x:Name="AuthorNameTextBlock"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="{x:Bind AuthorName, Mode=OneWay}"
+                               Tapped="AuthorNameTextBlock_Tapped"
+                               Width="200"
+                               MinWidth="100"/>
+                            <TextBox x:Name="AuthorNameTextBox"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Left"
+                             AcceptsReturn="False"
+                             IsReadOnly="False"
+                             KeyDown="AuthorNameTextBox_KeyDown"
+                             Width="200"
+                             MinWidth="100"
+                             Style="{ThemeResource AutoSuggestBoxTextBoxStyle}"
+                             Text="{x:Bind AuthorName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </Grid>
