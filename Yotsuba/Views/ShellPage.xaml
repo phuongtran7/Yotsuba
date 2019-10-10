@@ -93,7 +93,7 @@
                     <TextBox x:Name="NewBoardNameTextBox" Header= "Name" Margin="10" Width="256" HorizontalAlignment="Left" InputScope=" AlphanumericFullWidth"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Content="Save" Margin="24" Click="NewBoardSaveButton_Clicked"/>
-                        <Button Content="Cancel" Margin="24"/>
+                        <Button Content="Cancel" Margin="24" Click="NewBoardCancelButton_Clicked"/>
                     </StackPanel>
                 </StackPanel>
             </SplitView.Pane>
@@ -151,6 +151,16 @@
                              Width="256" 
                              HorizontalAlignment="Left" 
                              InputScope=" AlphanumericFullWidth"/>
+                        
+                        <ComboBox x:Name="TagSelector"
+                             IsEditable="true"
+                             Header="Belongs to:" 
+                             Height="60" 
+                             Width="265"
+                             ItemsSource="{x:Bind AvailableTags, Mode=OneWay}"
+                             SelectedItem="{x:Bind CurrentTag, Mode=TwoWay}"
+                             TextSubmitted="TagSelector_TextSubmitted"/>
+                        
                         <TextBlock x:Name="NewTaskCategoryTextBox" 
                              Margin="10" 
                              Width="256" 
@@ -161,7 +171,7 @@
                                   SelectionMode="Multiple" 
                                   HorizontalAlignment="Center"
                                   SelectedDatesChanged="WeekPicker_SelectedDatesChanged"/>
-
+                        
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Content="Save" Margin="10" Click="NewTaskSaveButton_Click"/>
                             <Button Content="Cancel" Margin="10" Click="NewTaskCancelButton_Click"/>

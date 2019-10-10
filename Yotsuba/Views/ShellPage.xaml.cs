@@ -27,7 +27,6 @@ namespace Yotsuba.Views
         private readonly KeyboardAccelerator _altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
 
         private BoardModel _selectedBoard;
-
         public BoardModel SelectedBoard
         {
             get { return _selectedBoard; }
@@ -37,6 +36,19 @@ namespace Yotsuba.Views
                 OnPropertyChanged("SelectedBoard");
             }
         }
+
+        private HashSet<string> _availableTags;
+        public HashSet<string> AvailableTags
+        {
+            get { return _availableTags; }
+            set
+            {
+                _availableTags = value;
+                OnPropertyChanged("AvailableTags");
+            }
+        }
+
+        public string CurrentTag { get; set; }
 
         ObservableCollection<BoardModel> BoardList { get; set; }
 
@@ -55,6 +67,7 @@ namespace Yotsuba.Views
 
             // Init BoardList
             BoardList = DataAccess.GetAllBoards();
+            AvailableTags = new HashSet<string>();
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -155,6 +168,12 @@ namespace Yotsuba.Views
             NewBoard_SplitView.IsPaneOpen = false;
         }
 
+        private void NewBoardCancelButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            NewBoardNameTextBox.Text = string.Empty;
+            NewBoard_SplitView.IsPaneOpen = false;
+        }
+
         private void EditBoardButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             EditBoardNameTextBox.Text = SelectedBoard.BoardName;
@@ -210,6 +229,8 @@ namespace Yotsuba.Views
 
         private void NewTaskButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            AvailableTags = new HashSet<string>(SelectedBoard.TaskList.Select(t => t.Tag).ToList());
+
             NewTask_SplitView.IsPaneOpen = true;
         }
 
@@ -443,5 +464,31 @@ namespace Yotsuba.Views
                 await Launcher.LaunchFolderAsync(folder, option);
             }
         }
+
+        private void TagSelector_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
+        {
+            if (!string.IsNullOrEmpty(args.Text))
+            {
+                AvailableTags.Add(args.Text);
+                //if ()
+                {
+                    // Get the newly add item index
+                    int index = sender.Items
+                                .Cast<ComboBoxItem>()
+                                .Select(c => (string)c.Content)
+                                .ToList()
+                                .IndexOf(args.Text);
+
+                    sender.SelectedIndex = index;
+                }
+
+            }
+            else
+            {
+                args.Handled = true;
+            }
+
+        }
+
     }
 }
