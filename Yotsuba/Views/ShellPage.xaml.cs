@@ -129,5 +129,23 @@ namespace Yotsuba.Views
         }
 
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void NewBoardButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            NewBoard_SplitView.IsPaneOpen = true;
+        }
+
+        private void NewBoardSaveButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            var new_id = Guid.NewGuid().GetHashCode();
+            var new_board = new BoardModel(new_id, NewBoardNameTextBox.Text);
+            BoardList.Add(new_board);
+
+            // Update database
+            //DataAccess.AddBoard(new_id, NewBoardNameTextBox.Text);
+
+            NewBoardNameTextBox.Text = string.Empty;
+            NewBoard_SplitView.IsPaneOpen = false;
+        }
     }
 }

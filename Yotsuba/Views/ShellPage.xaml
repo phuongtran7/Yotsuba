@@ -59,12 +59,12 @@
                     <NavigationViewItem x:Name="ExportBoard" Icon="Share" Content="Export Board" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
                     <NavigationViewItem x:Name="ReportHourButton" Icon="Clock" Content="Report Hour" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
                     <NavigationViewItem x:Name="EditBoardButton" Icon="Edit" Content="Edit Board" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
-                    <NavigationViewItem x:Name="NewBoardButton" Icon="NewFolder" Content = "New Board"/>
+                    <NavigationViewItem x:Name="NewBoardButton" Icon="NewFolder" Content = "New Board" Tapped="NewBoardButton_Tapped"/>
                 </StackPanel>
             </winui:NavigationView.PaneFooter>
         </winui:NavigationView>
 
-        <!--<SplitView x:Name="NewBoard_SplitView"
+        <SplitView x:Name="NewBoard_SplitView"
                    IsPaneOpen="False"
                    OpenPaneLength="320"
                    DisplayMode="Overlay">
@@ -80,7 +80,7 @@
             </SplitView.Pane>
         </SplitView>
 
-        <SplitView x:Name="EditBoard_SplitView"
+        <!--<SplitView x:Name="EditBoard_SplitView"
                    IsPaneOpen="False"
                    OpenPaneLength="320"
                    DisplayMode="Overlay">
