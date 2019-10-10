@@ -17,7 +17,7 @@
         x:Name="navigationView"
         IsBackButtonVisible="Collapsed"
         IsBackEnabled="False"
-        SelectedItem="{x:Bind Selected, Mode=OneWay}"
+        SelectedItem="{x:Bind SelectedBoard, Mode=OneWay}"
         ItemInvoked="OnItemInvoked"
         IsSettingsVisible="True"
         MenuItemsSource="{x:Bind BoardList, Mode=OneWay}"
@@ -31,7 +31,7 @@
 
         <i:Interaction.Behaviors>
             <behaviors:NavigationViewHeaderBehavior
-                DefaultHeader="{x:Bind Selected.Content, Mode=OneWay}">
+                DefaultHeader="{x:Bind SelectedBoard.BoardName, Mode=OneWay}">
                 <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
                     <DataTemplate>
                         <Grid>
@@ -45,7 +45,7 @@
             </behaviors:NavigationViewHeaderBehavior>
         </i:Interaction.Behaviors>
         <Grid>
-            <Frame x:Name="shellFrame" />
+            <Frame x:Name="shellFrame" Padding="12,0,12,12"/>
         </Grid>
     </winui:NavigationView>
 </Page>

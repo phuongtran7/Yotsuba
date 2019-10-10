@@ -24,12 +24,12 @@ namespace Yotsuba.Views
     {
         private readonly KeyboardAccelerator _altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
 
-        private WinUI.NavigationViewItem _selected;
+        private BoardModel _selectedBoard;
 
-        public WinUI.NavigationViewItem Selected
+        public BoardModel SelectedBoard
         {
-            get { return _selected; }
-            set { Set(ref _selected, value); }
+            get { return _selectedBoard; }
+            set { Set(ref _selectedBoard, value); }
         }
 
         ObservableCollection<BoardModel> BoardList { get; set; }
@@ -71,13 +71,10 @@ namespace Yotsuba.Views
         {
             if (e.SourcePageType == typeof(SettingsPage))
             {
-                Selected = navigationView.SettingsItem as WinUI.NavigationViewItem;
+                // Set the Header directly if Settings is selected
+                navigationView.Header = "Settings";
                 return;
             }
-
-            Selected = navigationView.MenuItems
-                            .OfType<WinUI.NavigationViewItem>()
-                            .FirstOrDefault(menuItem => IsMenuItemForPageType(menuItem, e.SourcePageType));
         }
 
         private bool IsMenuItemForPageType(WinUI.NavigationViewItem menuItem, Type sourcePageType)
@@ -94,11 +91,9 @@ namespace Yotsuba.Views
                 return;
             }
 
-            var item = navigationView.MenuItems
-                            .OfType<WinUI.NavigationViewItem>()
-                            .First(menuItem => (string)menuItem.Content == (string)args.InvokedItem);
-            var pageType = item.GetValue(NavHelper.NavigateToProperty) as Type;
-            NavigationService.Navigate(pageType);
+            // Get the selected Board in the BoardList and then send it over to the BoardPage for display
+            SelectedBoard = BoardList.Where(b => b.BoardName == (string)args.InvokedItem).FirstOrDefault();
+            NavigationService.Navigate(typeof(BoardPage), SelectedBoard);
         }
 
         private static KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)
