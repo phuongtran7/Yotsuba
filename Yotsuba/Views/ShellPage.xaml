@@ -145,22 +145,16 @@
                              AcceptsReturn="True"
                              TextWrapping="Wrap"
                              ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
-                        <TextBox x:Name="NewTaskTagTextBox" 
-                             Header= "Tag" 
-                             Margin="10" 
-                             Width="256" 
-                             HorizontalAlignment="Left" 
-                             InputScope=" AlphanumericFullWidth"/>
-                        
                         <ComboBox x:Name="TagSelector"
                              IsEditable="true"
                              Header="Belongs to:" 
                              Height="60" 
-                             Width="265"
+                             Width="256"
                              ItemsSource="{x:Bind AvailableTags, Mode=OneWay}"
                              SelectedItem="{x:Bind CurrentTag, Mode=TwoWay}"
-                             TextSubmitted="TagSelector_TextSubmitted"/>
-                        
+                             TextSubmitted="TagSelector_TextSubmitted"
+                             SelectionChanged="TagSelector_SelectionChanged"
+                             Margin="10"/>
                         <TextBlock x:Name="NewTaskCategoryTextBox" 
                              Margin="10" 
                              Width="256" 

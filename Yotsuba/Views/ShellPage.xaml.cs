@@ -247,17 +247,17 @@ namespace Yotsuba.Views
                 BoardID = SelectedBoard.ID,
                 Title = NewTaskNameTextBox.Text,
                 Description = NewTaskDescriptionTextBox.Text,
-                Tag = NewTaskTagTextBox.Text,
+                Tag = TagSelector.SelectedItem.ToString(),
                 Category = FormattedWeekString,
             });
 
             // Update Database
-            DataAccess.AddTaskToBoard(new_task_id, SelectedBoard.ID, NewTaskNameTextBox.Text, NewTaskDescriptionTextBox.Text, NewTaskTagTextBox.Text, FormattedWeekString);
+            DataAccess.AddTaskToBoard(new_task_id, SelectedBoard.ID, NewTaskNameTextBox.Text, NewTaskDescriptionTextBox.Text, TagSelector.SelectedItem.ToString(), FormattedWeekString);
 
             // Clear the filled data
             NewTaskNameTextBox.Text = string.Empty;
             NewTaskDescriptionTextBox.Text = string.Empty;
-            NewTaskTagTextBox.Text = string.Empty;
+            TagSelector.SelectedItem = null;
             WeekPicker.SelectedDates.Clear();
 
             // Close SplitView pane
@@ -271,7 +271,8 @@ namespace Yotsuba.Views
             // Clear the filled data
             NewTaskNameTextBox.Text = string.Empty;
             NewTaskDescriptionTextBox.Text = string.Empty;
-            NewTaskTagTextBox.Text = string.Empty;
+            //NewTaskTagTextBox.Text = string.Empty;
+            TagSelector.SelectedItem = null;
             WeekPicker.SelectedDates.Clear();
 
             // Close SplitView pane
@@ -470,20 +471,7 @@ namespace Yotsuba.Views
             if (!string.IsNullOrEmpty(args.Text))
             {
                 AvailableTags.Add(args.Text);
-                //if ()
-                {
-                    // Get the newly add item index
-                    //int index = sender.Items
-                    //            .Cast<ComboBoxItem>()
-                    //            .Select(c => (string)c.Content)
-                    //            .ToList()
-                    //            .IndexOf(args.Text);
-
-                    //sender.SelectedIndex = index;
-
-                    var item = sender.Items.Count;
-                }
-
+                CurrentTag = args.Text;
             }
             else
             {
@@ -492,5 +480,9 @@ namespace Yotsuba.Views
 
         }
 
+        private void TagSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
