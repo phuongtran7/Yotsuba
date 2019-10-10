@@ -414,7 +414,7 @@ namespace Yotsuba.Views
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             string filepath = $"{localFolder.Path}/{fileName}";
 
-            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string authorname = (string)localSettings.Values["AuthorName"];
 
             var writer = new DataOutput(SelectedBoard, authorname, filepath);
