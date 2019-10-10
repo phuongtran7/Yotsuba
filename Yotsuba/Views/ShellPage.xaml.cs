@@ -137,7 +137,7 @@ namespace Yotsuba.Views
 
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        private void NewBoardButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void NewBoardButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             NewBoard_SplitView.IsPaneOpen = true;
         }
@@ -208,7 +208,7 @@ namespace Yotsuba.Views
             EditBoard_SplitView.IsPaneOpen = false;
         }
 
-        private void NewTaskButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void NewTaskButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             NewTask_SplitView.IsPaneOpen = true;
         }
