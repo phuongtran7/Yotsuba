@@ -147,5 +147,57 @@ namespace Yotsuba.Views
             NewBoardNameTextBox.Text = string.Empty;
             NewBoard_SplitView.IsPaneOpen = false;
         }
+
+        private void EditBoardButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            EditBoardNameTextBox.Text = SelectedBoard.BoardName;
+            EditBoard_SplitView.IsPaneOpen = true;
+        }
+
+        private void EditBoardSaveButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            SelectedBoard.BoardName = EditBoardNameTextBox.Text;
+            //Re-invoke current page to trigger reload
+            NavigationService.Navigate(typeof(BoardPage), SelectedBoard);
+
+            // Update Database
+            //DataAccess.UpdateBoard(Current_Board.ID, Current_Board.BoardName);
+
+            EditBoard_SplitView.IsPaneOpen = false;
+        }
+
+        private async void EditBoardDeleteButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            ContentDialog deleteFileDialog = new ContentDialog
+            {
+                Title = "Delete board permanently?",
+                Content = "If you delete this board, you won't be able to recover it. Do you want to delete it?",
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult result = await deleteFileDialog.ShowAsync();
+
+            // Delete the file if the user clicked the primary button.
+            /// Otherwise, do nothing.
+            if (result == ContentDialogResult.Primary)
+            {
+                // Update Database
+                //DataAccess.DeleteBoard(SelectedBoard.ID);
+
+                BoardList.Remove(SelectedBoard);
+
+                // Navigate back to blank main page
+                NavigationService.Navigate(typeof(MainPage));
+
+                EditBoard_SplitView.IsPaneOpen = false;
+            }
+        }
+
+        private void EditBoardCancelButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            EditBoardNameTextBox.Text = string.Empty;
+            EditBoard_SplitView.IsPaneOpen = false;
+        }
     }
 }
