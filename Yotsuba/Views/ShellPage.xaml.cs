@@ -270,7 +270,9 @@ namespace Yotsuba.Views
 
         private void ReportHourButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            List<Tuple<string, HourModel>> ListOfHour = DataAccess.GetAllHourInBoard(SelectedBoard.ID);
+            //List<Tuple<string, HourModel>> ListOfHour = DataAccess.GetAllHourInBoard(SelectedBoard.ID);
+
+            List<Tuple<string, HourModel>> ListOfHour = new List<Tuple<string, HourModel>>();
 
             TextBlock titleTextBlock = new TextBlock
             {
@@ -342,9 +344,6 @@ namespace Yotsuba.Views
 
         private void ReportHourSaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var Current_Board = BoardList.Where(b => b.BoardName == NavView.Header.ToString()).FirstOrDefault();
-            var Current_BoardID = Current_Board.ID;
-
             // Loop through all the children
             var ChildrenOfThePane = ReportHourStackPane.Children;
 
@@ -369,8 +368,8 @@ namespace Yotsuba.Views
                     {
                         if (float.TryParse(textbox.Text, out float input_hour))
                         {
-                            // UpdateHourForTag(int boardid, string category, string tag, float hour)
-                            DataAccess.UpdateHourForTag(Current_BoardID, CurrentCategory, textbox.Header.ToString(), input_hour);
+                            // Update database
+                            //DataAccess.UpdateHourForTag(SelectedBoard.ID, CurrentCategory, textbox.Header.ToString(), input_hour);
 
                             // Update Hour for BoardModel, so that it can be written out later
                             HourModel hourfortag = new HourModel
@@ -378,7 +377,7 @@ namespace Yotsuba.Views
                                 Tag = textbox.Header.ToString(),
                                 Hours = input_hour,
                             };
-                            Current_Board.Hours.Add(new Tuple<string, HourModel>(CurrentCategory, hourfortag));
+                            SelectedBoard.Hours.Add(new Tuple<string, HourModel>(CurrentCategory, hourfortag));
                         }
                         else
                         {
