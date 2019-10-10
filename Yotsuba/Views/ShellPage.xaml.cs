@@ -28,7 +28,11 @@ namespace Yotsuba.Views
         public BoardModel SelectedBoard
         {
             get { return _selectedBoard; }
-            set { Set(ref _selectedBoard, value); }
+            set
+            {
+                Set(ref _selectedBoard, value);
+                OnPropertyChanged("SelectedBoard");
+            }
         }
 
         ObservableCollection<BoardModel> BoardList { get; set; }
