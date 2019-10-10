@@ -67,6 +67,7 @@
                     <NavigationViewItem x:Name="ReportHourButton"
                                         Icon="Clock"
                                         Content="Report Hour"
+                                        Tapped="ReportHourButton_Tapped"
                                         Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
                     <NavigationViewItem x:Name="EditBoardButton"
                                         Icon="Edit"
@@ -169,7 +170,7 @@
             </SplitView.Pane>
         </SplitView>
 
-        <!--<SplitView x:Name="ReportHourSplitView"
+        <SplitView x:Name="ReportHourSplitView"
                    IsPaneOpen="False"
                    OpenPaneLength="320"
                    DisplayMode="Overlay">
@@ -180,7 +181,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </SplitView.Pane>
-        </SplitView>-->
+        </SplitView>
 
         <winui:TeachingTip x:Name="HourIsEmptyTip"
                         Subtitle="Please make sure to filled the hour before saving.">

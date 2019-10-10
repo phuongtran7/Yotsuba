@@ -16,6 +16,7 @@ using Yotsuba.Helpers;
 using Yotsuba.Services;
 using System.Collections.ObjectModel;
 using Yotsuba.Core.Models;
+using System.Collections.Generic;
 
 namespace Yotsuba.Views
 {
@@ -265,6 +266,143 @@ namespace Yotsuba.Views
                 // Remove the first selected
                 sender.SelectedDates.RemoveAt(0);
             }
+        }
+
+        private void ReportHourButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            List<Tuple<string, HourModel>> ListOfHour = DataAccess.GetAllHourInBoard(SelectedBoard.ID);
+
+            TextBlock titleTextBlock = new TextBlock
+            {
+                Text = "Report Hours",
+                Width = 256,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(10),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Style = this.Resources["TitleTextBlockStyle"] as Style,
+            };
+
+            ReportHourStackPane.Children.Add(titleTextBlock);
+
+            foreach (var HourData in ListOfHour)
+            {
+                TextBlock categoryTextBlock = new TextBlock
+                {
+                    Text = HourData.Item1,
+                    Width = 256,
+                    TextWrapping = TextWrapping.Wrap,
+                    Margin = new Thickness(5),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                };
+
+                ReportHourStackPane.Children.Add(categoryTextBlock);
+
+                TextBox textBox = new TextBox
+                {
+                    Header = HourData.Item2.Tag,
+                    Text = HourData.Item2.Hours.ToString(),
+                    PlaceholderText = "Hours Worked On",
+                    Width = 256,
+                    TextWrapping = TextWrapping.Wrap,
+                    Margin = new Thickness(5),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                };
+
+                ReportHourStackPane.Children.Add(textBox);
+            }
+
+            StackPanel ButtonStackPanel = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+
+            Button SaveButton = new Button
+            {
+                Content = "Save",
+                Margin = new Thickness(10)
+            };
+            SaveButton.Click += ReportHourSaveButton_Click;
+
+            Button CancelButton = new Button
+            {
+                Content = "Cancel",
+                Margin = new Thickness(10)
+            };
+            CancelButton.Click += ReportHourCancelButton_Click;
+
+            ButtonStackPanel.Children.Add(SaveButton);
+            ButtonStackPanel.Children.Add(CancelButton);
+
+            ReportHourStackPane.Children.Add(ButtonStackPanel);
+
+            // Open Report Hour pane
+            ReportHourSplitView.IsPaneOpen = true;
+        }
+
+        private void ReportHourSaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var Current_Board = BoardList.Where(b => b.BoardName == NavView.Header.ToString()).FirstOrDefault();
+            var Current_BoardID = Current_Board.ID;
+
+            // Loop through all the children
+            var ChildrenOfThePane = ReportHourStackPane.Children;
+
+            string CurrentCategory = string.Empty;
+
+            foreach (var item in ChildrenOfThePane)
+            {
+                if (item is TextBlock textblock)
+                {
+                    if (textblock.Text == "Report Hours")
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        CurrentCategory = textblock.Text;
+                    }
+                }
+                else if (item is TextBox textbox)
+                {
+                    if (!CurrentCategory.Equals(string.Empty))
+                    {
+                        if (float.TryParse(textbox.Text, out float input_hour))
+                        {
+                            // UpdateHourForTag(int boardid, string category, string tag, float hour)
+                            DataAccess.UpdateHourForTag(Current_BoardID, CurrentCategory, textbox.Header.ToString(), input_hour);
+
+                            // Update Hour for BoardModel, so that it can be written out later
+                            HourModel hourfortag = new HourModel
+                            {
+                                Tag = textbox.Header.ToString(),
+                                Hours = input_hour,
+                            };
+                            Current_Board.Hours.Add(new Tuple<string, HourModel>(CurrentCategory, hourfortag));
+                        }
+                        else
+                        {
+                            HourIsEmptyTip.Title = $"{textbox.Header.ToString()} is empty.";
+                            HourIsEmptyTip.IsOpen = true;
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Remove all the children in the stackpane
+            ReportHourStackPane.Children.Clear();
+            // Close Report Hour pane
+            ReportHourSplitView.IsPaneOpen = false;
+        }
+
+        private void ReportHourCancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Remove all the children in the stackpane
+            ReportHourStackPane.Children.Clear();
+
+            // Close Report Hour pane
+            ReportHourSplitView.IsPaneOpen = false;
         }
     }
 }
