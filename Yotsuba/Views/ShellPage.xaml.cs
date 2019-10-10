@@ -88,6 +88,7 @@ namespace Yotsuba.Views
             if (args.IsSettingsInvoked)
             {
                 NavigationService.Navigate(typeof(SettingsPage));
+                SelectedBoard = null;
                 return;
             }
 

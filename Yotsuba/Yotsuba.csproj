@@ -111,6 +111,7 @@
     <Compile Include="Behaviors\NavigationViewHeaderMode.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
+    <Compile Include="Helpers\NullToVisibilityConverter.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />

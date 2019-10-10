@@ -13,6 +13,10 @@
     Loaded="OnLoaded"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <helpers:NullToVisibilityConverter x:Key="NullToVisibility"/>
+    </Page.Resources>
+
     <winui:NavigationView
         x:Name="navigationView"
         IsBackButtonVisible="Collapsed"
@@ -47,5 +51,16 @@
         <Grid>
             <Frame x:Name="shellFrame" Padding="12,0,12,12"/>
         </Grid>
+
+        <winui:NavigationView.PaneFooter>
+            <StackPanel>
+                <NavigationViewItem x:Name="NewTaskButton" Icon="Add" Content="New Task" Tapped="NewTaskButton_Tapped" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                <NavigationViewItem x:Name="ExportBoard" Icon="Share" Content="Export Board" Tapped="ExportBoard_Tapped" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                <NavigationViewItem x:Name="ReportHourButton" Icon="Clock" Content="Report Hour" Tapped="ReportHourButton_Tapped" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                <NavigationViewItem x:Name="EditBoardButton" Icon="Edit" Content="Edit Board" Tapped="EditBoardButton_Tapped" Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                <NavigationViewItem x:Name="NewBoardButton" Icon="NewFolder" Content = "New Board" Tapped="NewBoardButton_Tapped"/>
+            </StackPanel>
+        </winui:NavigationView.PaneFooter>
+
     </winui:NavigationView>
 </Page>
