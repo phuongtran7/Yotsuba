@@ -50,18 +50,6 @@
                         </RadioButton.CommandParameter>
                     </RadioButton>
                 </StackPanel>
-            </StackPanel>
-
-            <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
-
-            <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind VersionDescription, Mode=OneWay}" />
-                <TextBlock
-                    x:Uid="Settings_AboutDescription"
-                    Margin="{StaticResource XSmallTopMargin}"
-                    Style="{ThemeResource BodyTextBlockStyle}" />
-
-                <!--<HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />-->
 
                 <StackPanel HorizontalAlignment="Left">
                     <TextBlock
@@ -70,7 +58,7 @@
                     FontWeight="Normal"
                     Text="Document Settings" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="10" Text="Author name:" Style="{ThemeResource BodyTextBlockStyle}"/>
+                        <TextBlock Margin="0, 10, 10, 10" Text="Author name:" Style="{ThemeResource BodyTextBlockStyle}"/>
                         <Grid VerticalAlignment="Center">
                             <TextBlock x:Name="AuthorNameTextBlock"
                                VerticalAlignment="Center"
@@ -93,6 +81,21 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
+
+            <StackPanel Margin="{StaticResource XSmallTopMargin}">
+
+                <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind VersionDescription, Mode=OneWay}" />
+                <TextBlock
+                    x:Uid="Settings_AboutDescription"
+                    Margin="{StaticResource XSmallTopMargin}"
+                    Style="{ThemeResource BodyTextBlockStyle}" />
+
+                <!--<HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />-->
+            </StackPanel>
+
+
         </StackPanel>
     </Grid>
 </Page>
