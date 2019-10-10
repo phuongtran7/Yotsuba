@@ -75,12 +75,12 @@ namespace Yotsuba.Views
                 navigationView.Header = "Settings";
                 return;
             }
-        }
 
-        private bool IsMenuItemForPageType(WinUI.NavigationViewItem menuItem, Type sourcePageType)
-        {
-            var pageType = menuItem.GetValue(NavHelper.NavigateToProperty) as Type;
-            return pageType == sourcePageType;
+            if (SelectedBoard == null)
+            {
+                // Disable Header
+                navigationView.Header = null;
+            }
         }
 
         private void OnItemInvoked(WinUI.NavigationView sender, WinUI.NavigationViewItemInvokedEventArgs args)
@@ -179,13 +179,14 @@ namespace Yotsuba.Views
             ContentDialogResult result = await deleteFileDialog.ShowAsync();
 
             // Delete the file if the user clicked the primary button.
-            /// Otherwise, do nothing.
+            // Otherwise, do nothing.
             if (result == ContentDialogResult.Primary)
             {
                 // Update Database
                 //DataAccess.DeleteBoard(SelectedBoard.ID);
 
                 BoardList.Remove(SelectedBoard);
+                SelectedBoard = null;
 
                 // Navigate back to blank main page
                 NavigationService.Navigate(typeof(MainPage));
