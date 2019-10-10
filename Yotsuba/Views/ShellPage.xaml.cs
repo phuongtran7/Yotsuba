@@ -21,16 +21,8 @@ namespace Yotsuba.Views
     public sealed partial class ShellPage : Page, INotifyPropertyChanged
     {
         private readonly KeyboardAccelerator _altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
-        private readonly KeyboardAccelerator _backKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.GoBack);
 
-        private bool _isBackEnabled;
         private WinUI.NavigationViewItem _selected;
-
-        public bool IsBackEnabled
-        {
-            get { return _isBackEnabled; }
-            set { Set(ref _isBackEnabled, value); }
-        }
 
         public WinUI.NavigationViewItem Selected
         {
@@ -50,7 +42,6 @@ namespace Yotsuba.Views
             NavigationService.Frame = shellFrame;
             NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
-            navigationView.BackRequested += OnBackRequested;
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -58,7 +49,6 @@ namespace Yotsuba.Views
             // Keyboard accelerators are added here to avoid showing 'Alt + left' tooltip on the page.
             // More info on tracking issue https://github.com/Microsoft/microsoft-ui-xaml/issues/8
             KeyboardAccelerators.Add(_altLeftKeyboardAccelerator);
-            KeyboardAccelerators.Add(_backKeyboardAccelerator);
             await Task.CompletedTask;
         }
 
@@ -69,7 +59,6 @@ namespace Yotsuba.Views
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
-            IsBackEnabled = NavigationService.CanGoBack;
             if (e.SourcePageType == typeof(SettingsPage))
             {
                 Selected = navigationView.SettingsItem as WinUI.NavigationViewItem;
@@ -100,11 +89,6 @@ namespace Yotsuba.Views
                             .First(menuItem => (string)menuItem.Content == (string)args.InvokedItem);
             var pageType = item.GetValue(NavHelper.NavigateToProperty) as Type;
             NavigationService.Navigate(pageType);
-        }
-
-        private void OnBackRequested(WinUI.NavigationView sender, WinUI.NavigationViewBackRequestedEventArgs args)
-        {
-            NavigationService.GoBack();
         }
 
         private static KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)
