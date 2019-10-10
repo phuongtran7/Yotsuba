@@ -19,7 +19,6 @@ using Yotsuba.Core.Models;
 
 namespace Yotsuba.Views
 {
-    // TODO WTS: Change the icons and titles for all NavigationViewItems in ShellPage.xaml.
     public sealed partial class ShellPage : Page, INotifyPropertyChanged
     {
         private readonly KeyboardAccelerator _altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
@@ -94,7 +93,7 @@ namespace Yotsuba.Views
 
             // Get the selected Board in the BoardList and then send it over to the BoardPage for display
             SelectedBoard = BoardList.Where(b => b.BoardName == (string)args.InvokedItem).FirstOrDefault();
-            NavigationService.Navigate(typeof(BoardPage), SelectedBoard);
+            NavigationService.Navigate(typeof(BoardPage), SelectedBoard.TaskList);
         }
 
         private static KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)
@@ -158,7 +157,7 @@ namespace Yotsuba.Views
         {
             SelectedBoard.BoardName = EditBoardNameTextBox.Text;
             //Re-invoke current page to trigger reload
-            NavigationService.Navigate(typeof(BoardPage), SelectedBoard);
+            NavigationService.Navigate(typeof(BoardPage), SelectedBoard.TaskList);
 
             // Update Database
             //DataAccess.UpdateBoard(Current_Board.ID, Current_Board.BoardName);
@@ -235,7 +234,7 @@ namespace Yotsuba.Views
             // Close SplitView pane
             NewTask_SplitView.IsPaneOpen = false;
 
-            NavigationService.Navigate(typeof(BoardPage), SelectedBoard);
+            NavigationService.Navigate(typeof(BoardPage), SelectedBoard.TaskList);
         }
 
         private void NewTaskCancelButton_Click(object sender, RoutedEventArgs e)

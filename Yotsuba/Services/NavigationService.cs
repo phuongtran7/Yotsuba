@@ -57,7 +57,7 @@ namespace Yotsuba.Services
         public static bool Navigate(Type pageType, object parameter = null, NavigationTransitionInfo infoOverride = null)
         {
             // Don't open the same page multiple times
-            if (Frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParamUsed)))
+            if (Frame.Content?.GetType() != pageType || (parameter != null /*&& !parameter.Equals(_lastParamUsed)*/))
             {
                 var navigationResult = Frame.Navigate(pageType, parameter, infoOverride);
                 if (navigationResult)
