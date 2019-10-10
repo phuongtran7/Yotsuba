@@ -17,6 +17,7 @@ using Yotsuba.Services;
 using System.Collections.ObjectModel;
 using Yotsuba.Core.Models;
 using System.Collections.Generic;
+using Yotsuba.Core.Utilities;
 
 namespace Yotsuba.Views
 {
@@ -43,9 +44,6 @@ namespace Yotsuba.Views
             InitializeComponent();
             DataContext = this;
             Initialize();
-
-            // Test data
-            BoardList.Add(new BoardModel(Guid.NewGuid().GetHashCode(), "Helo World"));
         }
 
         private void Initialize()
@@ -55,7 +53,7 @@ namespace Yotsuba.Views
             NavigationService.Navigated += Frame_Navigated;
 
             // Init BoardList
-            BoardList = new ObservableCollection<BoardModel>();
+            BoardList = DataAccess.GetAllBoards();
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -150,7 +148,7 @@ namespace Yotsuba.Views
             BoardList.Add(new_board);
 
             // Update database
-            //DataAccess.AddBoard(new_id, NewBoardNameTextBox.Text);
+            DataAccess.AddBoard(new_id, NewBoardNameTextBox.Text);
 
             NewBoardNameTextBox.Text = string.Empty;
             NewBoard_SplitView.IsPaneOpen = false;
@@ -169,7 +167,7 @@ namespace Yotsuba.Views
             NavigationService.Navigate(typeof(BoardPage), SelectedBoard.TaskList);
 
             // Update Database
-            //DataAccess.UpdateBoard(Current_Board.ID, Current_Board.BoardName);
+            DataAccess.UpdateBoard(SelectedBoard.ID, SelectedBoard.BoardName);
 
             EditBoard_SplitView.IsPaneOpen = false;
         }
@@ -191,7 +189,7 @@ namespace Yotsuba.Views
             if (result == ContentDialogResult.Primary)
             {
                 // Update Database
-                //DataAccess.DeleteBoard(SelectedBoard.ID);
+                DataAccess.DeleteBoard(SelectedBoard.ID);
 
                 BoardList.Remove(SelectedBoard);
                 SelectedBoard = null;
@@ -232,7 +230,7 @@ namespace Yotsuba.Views
             });
 
             // Update Database
-            //DataAccess.AddTaskToBoard(new_task_id, SelectedBoard.ID, NewTaskNameTextBox.Text, NewTaskDescriptionTextBox.Text, NewTaskTagTextBox.Text, FormattedWeekString);
+            DataAccess.AddTaskToBoard(new_task_id, SelectedBoard.ID, NewTaskNameTextBox.Text, NewTaskDescriptionTextBox.Text, NewTaskTagTextBox.Text, FormattedWeekString);
 
             // Clear the filled data
             NewTaskNameTextBox.Text = string.Empty;
@@ -270,9 +268,7 @@ namespace Yotsuba.Views
 
         private void ReportHourButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //List<Tuple<string, HourModel>> ListOfHour = DataAccess.GetAllHourInBoard(SelectedBoard.ID);
-
-            List<Tuple<string, HourModel>> ListOfHour = new List<Tuple<string, HourModel>>();
+            List<Tuple<string, HourModel>> ListOfHour = DataAccess.GetAllHourInBoard(SelectedBoard.ID);
 
             TextBlock titleTextBlock = new TextBlock
             {
@@ -368,8 +364,8 @@ namespace Yotsuba.Views
                     {
                         if (float.TryParse(textbox.Text, out float input_hour))
                         {
-                            // Update database
-                            //DataAccess.UpdateHourForTag(SelectedBoard.ID, CurrentCategory, textbox.Header.ToString(), input_hour);
+                            // Update Database
+                            DataAccess.UpdateHourForTag(SelectedBoard.ID, CurrentCategory, textbox.Header.ToString(), input_hour);
 
                             // Update Hour for BoardModel, so that it can be written out later
                             HourModel hourfortag = new HourModel

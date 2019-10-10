@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Yotsuba.Core.Models;
+using Yotsuba.Core.Utilities;
 
 namespace Yotsuba.Views
 {
@@ -136,8 +137,8 @@ namespace Yotsuba.Views
 
             itemsCVS.Source = FormatData();
 
-            // Update database
-            //DataAccess.UpdateTask(item.ID, item.BoardID, item.Title, item.Description, item.Tag, item.Category);
+            // Update Database
+            DataAccess.UpdateTask(SelectedTask.ID, SelectedTask.BoardID, SelectedTask.Title, SelectedTask.Description, SelectedTask.Tag, SelectedTask.Category);
 
             // Close SplitView
             EditTaskSplitView.IsPaneOpen = false;
@@ -181,8 +182,8 @@ namespace Yotsuba.Views
             // Otherwise, do nothing.
             if (result == ContentDialogResult.Primary)
             {
-                // Update database
-                //DataAccess.DeleteTaskFromBoard(item.BoardID, item.ID);
+                // Update Database
+                DataAccess.DeleteTaskFromBoard(SelectedTask.BoardID, SelectedTask.ID);
 
                 Items.Remove(SelectedTask);
                 itemsCVS.Source = FormatData();
