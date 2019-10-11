@@ -236,11 +236,20 @@ namespace Yotsuba.Views
 
         private void NewTaskSaveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (TagSelector.SelectedItem == null)
+            {
+                EmptyTip.Title = "Tag is empty.";
+                EmptyTip.Subtitle = "Please choose or add new tag.";
+                EmptyTip.IsOpen = true;
+                return;
+            }
+
             var dates = WeekPicker.SelectedDates;
             var sorted = dates.OrderBy(x => x.Date); // Sort the selected dates
             string FormattedWeekString = $"{sorted.First().ToString("MM/dd/yyyy")} - {sorted.Last().ToString("MM/dd/yyyy")}";
 
             var new_task_id = Guid.NewGuid().GetHashCode();
+
             SelectedBoard.TaskList.Add(new TaskModel
             {
                 ID = new_task_id,
@@ -406,8 +415,9 @@ namespace Yotsuba.Views
                         }
                         else
                         {
-                            HourIsEmptyTip.Title = $"{textbox.Header.ToString()} is empty.";
-                            HourIsEmptyTip.IsOpen = true;
+                            EmptyTip.Title = $"{textbox.Header.ToString()} is empty.";
+                            EmptyTip.Subtitle = "Please make sure that hour is not empty";
+                            EmptyTip.IsOpen = true;
                             return;
                         }
                     }

@@ -187,8 +187,7 @@
             </SplitView.Pane>
         </SplitView>
 
-        <winui:TeachingTip x:Name="HourIsEmptyTip"
-                        Subtitle="Please make sure to filled the hour before saving.">
-        </winui:TeachingTip>
+        <winui:TeachingTip x:Name="EmptyTip" />
+
     </Grid>
 </Page>
