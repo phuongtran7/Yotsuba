@@ -11,8 +11,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 using WinUI = Microsoft.UI.Xaml.Controls;
-
-using Yotsuba.Helpers;
 using Yotsuba.Services;
 using System.Collections.ObjectModel;
 using Yotsuba.Core.Models;
@@ -462,8 +460,10 @@ namespace Yotsuba.Views
             var writer = new DataOutput(SelectedBoard, authorname, filepath);
             writer.WriteToFile();
 
-            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
-            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+            };
             folderPicker.FileTypeFilter.Add("*");
 
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
