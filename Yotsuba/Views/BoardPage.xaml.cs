@@ -153,6 +153,13 @@ namespace Yotsuba.Views
             // If choose new week then replace it
             if (WeekPicker.SelectedDates.Count != 0)
             {
+                if (WeekPicker.SelectedDates.Count < 2)
+                {
+                    EmptyTip.Title = "Week is not selected.";
+                    EmptyTip.Subtitle = "Please make sure to choose start and end date.";
+                    EmptyTip.IsOpen = true;
+                    return;
+                }
                 var dates = WeekPicker.SelectedDates;
                 var sorted = dates.OrderBy(x => x.Date); // Sort the selected dates
                 string FormattedWeekString = $"{sorted.First().ToString("MM/dd/yyyy")} - {sorted.Last().ToString("MM/dd/yyyy")}";
