@@ -36,12 +36,12 @@
 
             <i:Interaction.Behaviors>
                 <behaviors:NavigationViewHeaderBehavior
-                DefaultHeader="{x:Bind SelectedBoard.BoardName, Mode=OneWay}">
+                DefaultHeader="{x:Bind SelectedBoard, Mode=OneWay}">
                     <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="local:BoardModel">
                             <Grid>
                                 <TextBlock
-                                Text="{Binding}"
+                                Text="{x:Bind BoardName, Mode=OneWay}"
                                 Style="{ThemeResource TitleTextBlockStyle}"
                                 Margin="{StaticResource SmallLeftRightMargin}"/>
                             </Grid>
