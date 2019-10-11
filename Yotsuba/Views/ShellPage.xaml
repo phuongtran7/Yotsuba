@@ -187,7 +187,8 @@
             </SplitView.Pane>
         </SplitView>
 
-        <winui:TeachingTip x:Name="EmptyTip" />
+        <winui:TeachingTip x:Name="EmptyTip"
+                           IsLightDismissEnabled="True"/>
 
     </Grid>
 </Page>

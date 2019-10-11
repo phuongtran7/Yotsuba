@@ -138,6 +138,14 @@ namespace Yotsuba.Views
 
         private void EditTaskSaveButton_Clicked(object sender, RoutedEventArgs e)
         {
+            if (TagSelector.SelectedItem == null)
+            {
+                EmptyTip.Title = "Tag is empty.";
+                EmptyTip.Subtitle = "Please choose or add new tag.";
+                EmptyTip.IsOpen = true;
+                return;
+            }
+
             SelectedTask.Title = EditTaskName_TextBox.Text;
             SelectedTask.Description = EditTaskDescription_TextBox.Text;
             SelectedTask.Tag = TagSelector.SelectedItem.ToString();

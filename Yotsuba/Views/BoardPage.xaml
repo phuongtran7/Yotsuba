@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:Yotsuba.Views"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
     
@@ -100,6 +101,9 @@
                 </ScrollViewer>
             </SplitView.Pane>
         </SplitView>
+
+        <winui:TeachingTip x:Name="EmptyTip"
+                           IsLightDismissEnabled="True"/>
 
         <!--  Visual states reflect the application's window size  -->
         <VisualStateManager.VisualStateGroups>
