@@ -327,31 +327,39 @@ namespace Yotsuba.Views
 
             ReportHourStackPane.Children.Add(titleTextBlock);
 
-            foreach (var HourData in ListOfHour)
+            var groupedHourList = ListOfHour
+                .GroupBy(u => u.Item1)
+                .Select(grp => grp.ToList())
+                .ToList();
+
+            foreach (var group in groupedHourList)
             {
+                var groupName = group.Select(p => p.Item1).First();
                 TextBlock categoryTextBlock = new TextBlock
                 {
-                    Text = HourData.Item1,
+                    Text = groupName,
                     Width = 256,
                     TextWrapping = TextWrapping.Wrap,
                     Margin = new Thickness(5),
                     HorizontalAlignment = HorizontalAlignment.Left,
                 };
-
                 ReportHourStackPane.Children.Add(categoryTextBlock);
 
-                TextBox textBox = new TextBox
+                foreach (var item in group)
                 {
-                    Header = HourData.Item2.Tag,
-                    Text = HourData.Item2.Hours.ToString(),
-                    PlaceholderText = "Hours Worked On",
-                    Width = 256,
-                    TextWrapping = TextWrapping.Wrap,
-                    Margin = new Thickness(5),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                };
+                    TextBox textBox = new TextBox
+                    {
+                        Header = item.Item2.Tag,
+                        Text = item.Item2.Hours.ToString(),
+                        PlaceholderText = "Hours Worked On",
+                        Width = 256,
+                        TextWrapping = TextWrapping.Wrap,
+                        Margin = new Thickness(5),
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                    };
 
-                ReportHourStackPane.Children.Add(textBox);
+                    ReportHourStackPane.Children.Add(textBox);
+                }
             }
 
             StackPanel ButtonStackPanel = new StackPanel
