@@ -419,14 +419,6 @@ namespace Yotsuba.Views
                         {
                             // Update Database
                             DataAccess.UpdateHourForTag(SelectedBoard.ID, CurrentCategory, textbox.Header.ToString(), input_hour);
-
-                            // Update Hour for BoardModel, so that it can be written out later
-                            HourModel hourfortag = new HourModel
-                            {
-                                Tag = textbox.Header.ToString(),
-                                Hours = input_hour,
-                            };
-                            SelectedBoard.Hours.Add(new Tuple<string, HourModel>(CurrentCategory, hourfortag));
                         }
                         else
                         {
@@ -463,6 +455,9 @@ namespace Yotsuba.Views
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string authorname = (string)localSettings.Values["AuthorName"];
+
+            // Only when prepare to write to file, update Hour in Board object
+            SelectedBoard.Hours = DataAccess.GetAllHourInBoard(SelectedBoard.ID);
 
             var writer = new DataOutput(SelectedBoard, authorname, filepath);
             writer.WriteToFile();
