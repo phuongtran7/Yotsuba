@@ -300,8 +300,8 @@ namespace Yotsuba.Views
             // Only allow two dates to be selected
             if (sender.SelectedDates.Count > 2)
             {
-                // Remove the first selected
-                sender.SelectedDates.RemoveAt(0);
+                // Remove the last selected
+                sender.SelectedDates.RemoveAt(1);
             }
         }
 
