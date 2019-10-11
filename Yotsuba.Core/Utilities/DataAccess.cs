@@ -10,12 +10,6 @@ namespace Yotsuba.Core.Utilities
     {
         //https://stackoverflow.com/a/11285360/9017481
         /*
-              AuthorTable
-            AuthorID | AuthorName
-            ----------------------
-            0        | Big Boss
-           
-           
               BoardTable
              BoardID | BoardName        
              --------------------------
@@ -46,7 +40,7 @@ namespace Yotsuba.Core.Utilities
 
             db.Open();
 
-            String boardTableCommand = "CREATE TABLE IF NOT " +
+            string boardTableCommand = "CREATE TABLE IF NOT " +
                 "EXISTS BoardTable (BoardID INTEGER PRIMARY KEY, " +
                 "BoardName NVARCHAR(2048) NULL)";
 
@@ -54,7 +48,7 @@ namespace Yotsuba.Core.Utilities
 
             createBoardTable.ExecuteReader();
 
-            String TaskTableCommand = "CREATE TABLE IF NOT " +
+            string TaskTableCommand = "CREATE TABLE IF NOT " +
                 "EXISTS TaskTable (TaskID INTEGER PRIMARY KEY, " +
                 "BoardID INTEGER NULL, " +
                 "TaskName NVARCHAR(2048) NULL, " +
@@ -66,7 +60,7 @@ namespace Yotsuba.Core.Utilities
 
             createTaskTable.ExecuteReader();
 
-            String HourTableCommand = "CREATE TABLE IF NOT " +
+            string HourTableCommand = "CREATE TABLE IF NOT " +
                 "EXISTS HourTable (HourID INTEGER PRIMARY KEY, " +
                 "BoardID INTEGER NULL, " +
                 "Category NVARCHAR(2048) NULL, " +
@@ -76,24 +70,6 @@ namespace Yotsuba.Core.Utilities
             using SqliteCommand createHourTable = new SqliteCommand(HourTableCommand, db);
 
             createHourTable.ExecuteReader();
-
-            String authorTableCommand = "CREATE TABLE IF NOT " +
-                "EXISTS AuthorTable (AuthorID INTEGER PRIMARY KEY, " +
-                "AuthorName NVARCHAR(2048) NULL)";
-
-            using SqliteCommand createAuthorTable = new SqliteCommand(authorTableCommand, db);
-
-            createAuthorTable.ExecuteReader();
-
-            using SqliteCommand insertCommand = new SqliteCommand();
-            insertCommand.Connection = db;
-
-            // Initialize AuthorTable, which should only have one row
-            insertCommand.CommandText = "INSERT OR IGNORE INTO AuthorTable VALUES (@AuthorID, @AuthorName);";
-            insertCommand.Parameters.AddWithValue("@AuthorID", 0);
-            insertCommand.Parameters.AddWithValue("@AuthorName", "Big Boss");
-
-            insertCommand.ExecuteReader();
 
             db.Close();
         }
@@ -460,46 +436,5 @@ namespace Yotsuba.Core.Utilities
 
             db.Close();
         }
-
-        public static void UpdateAuthorName(string authorname)
-        {
-            using SqliteConnection db = new SqliteConnection("Filename=ImaginaryNumberSpace.db");
-
-            db.Open();
-
-            SqliteCommand updateCommand = new SqliteCommand();
-            updateCommand.Connection = db;
-
-            updateCommand.CommandText = "UPDATE AuthorTable SET AuthorName = @AuthorName " +
-                "WHERE AuthorID = 0";
-            updateCommand.Parameters.AddWithValue("@AuthorName", authorname);
-
-            SqliteDataReader query = updateCommand.ExecuteReader();
-
-            db.Close();
-        }
-
-        public static string GetAuthorName()
-        {
-            string entries = string.Empty;
-
-            using SqliteConnection db = new SqliteConnection("Filename=ImaginaryNumberSpace.db");
-
-            db.Open();
-
-            SqliteCommand selectCommand = new SqliteCommand("SELECT AuthorName from AuthorTable WHERE AuthorID = 0", db);
-
-            SqliteDataReader query = selectCommand.ExecuteReader();
-
-            if (query.Read())
-            {
-                entries = query.GetString(0);
-            }
-
-            db.Close();
-
-            return entries;
-        }
-
     }
 }
