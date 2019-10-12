@@ -74,6 +74,13 @@ namespace Yotsuba.Views
             // More info on tracking issue https://github.com/Microsoft/microsoft-ui-xaml/issues/8
             KeyboardAccelerators.Add(_altLeftKeyboardAccelerator);
             await Task.CompletedTask;
+
+            // Due to some weird bug in the CalendarView, if it's not shown before changing the theme
+            // the app will crash.
+            // To work around just show the SplitView pane and quickly close it when the page loaded
+            // Bug report filled here: https://github.com/microsoft/WindowsTemplateStudio/issues/3367
+            NewTask_SplitView.IsPaneOpen = true;
+            NewTask_SplitView.IsPaneOpen = false;
         }
 
         private void Frame_NavigationFailed(object sender, NavigationFailedEventArgs e)
