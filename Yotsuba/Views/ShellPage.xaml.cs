@@ -50,6 +50,17 @@ namespace Yotsuba.Views
 
         ObservableCollection<BoardModel> BoardList { get; set; }
 
+        private bool _isbusy;
+        public bool IsBusy
+        {
+            get { return _isbusy; }
+            set
+            {
+                _isbusy = value;
+                OnPropertyChanged("IsBusy");
+            }
+        }
+
         public ShellPage()
         {
             InitializeComponent();
@@ -447,6 +458,9 @@ namespace Yotsuba.Views
 
         private async void ExportBoard_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            // Trigger loading screen while creating the document
+            IsBusy = true;
+
             string fileName = $"{SelectedBoard.BoardName}.docx";
 
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
@@ -460,6 +474,9 @@ namespace Yotsuba.Views
 
             var writer = new DataOutput(SelectedBoard, authorname, filepath);
             writer.WriteToFile();
+
+            // End loading screen
+            IsBusy = false;
 
             var folderPicker = new Windows.Storage.Pickers.FolderPicker
             {

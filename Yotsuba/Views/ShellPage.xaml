@@ -10,6 +10,7 @@
     xmlns:helpers="using:Yotsuba.Helpers"
     xmlns:views="using:Yotsuba.Views"
     xmlns:local="using:Yotsuba.Core.Models"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Loaded="OnLoaded"
     mc:Ignorable="d">
 
@@ -190,5 +191,16 @@
         <winui:TeachingTip x:Name="EmptyTip"
                            IsLightDismissEnabled="True"/>
 
+        <controls:Loading IsLoading="{x:Bind IsBusy, Mode=TwoWay}">
+            <StackPanel Orientation="Horizontal" Padding="12">
+                <Grid Margin="0,0,8,0">
+                    <ProgressRing IsActive="True"/>
+                </Grid>
+                <TextBlock Text="Don't Panic"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource TitleTextBlockStyle}"/>
+            </StackPanel>
+        </controls:Loading>
+        
     </Grid>
 </Page>
