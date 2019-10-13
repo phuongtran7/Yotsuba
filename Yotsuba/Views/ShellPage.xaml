@@ -41,9 +41,9 @@
                         <DataTemplate x:DataType="local:BoardModel">
                             <Grid>
                                 <TextBlock
-                                Text="{x:Bind BoardName, Mode=OneWay}"
-                                Style="{ThemeResource TitleTextBlockStyle}"
-                                Margin="{StaticResource SmallLeftRightMargin}"/>
+                                    Text="{x:Bind BoardName, Mode=OneWay}"
+                                    Style="{ThemeResource TitleTextBlockStyle}"
+                                    Margin="{StaticResource SmallLeftRightMargin}"/>
                             </Grid>
                         </DataTemplate>
                     </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>

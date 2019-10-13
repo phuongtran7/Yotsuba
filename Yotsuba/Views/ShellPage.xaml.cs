@@ -92,13 +92,6 @@ namespace Yotsuba.Views
         {
             if (e.SourcePageType == typeof(SettingsPage))
             {
-                // Set the Header directly if Settings is selected
-                navigationView.Header = "Settings";
-                return;
-            }
-
-            if (SelectedBoard == null)
-            {
                 // Disable Header
                 navigationView.Header = null;
             }
@@ -108,17 +101,18 @@ namespace Yotsuba.Views
         {
             if (args.IsSettingsInvoked)
             {
-                NavigationService.Navigate(typeof(SettingsPage));
                 SelectedBoard = null;
-                return;
+                NavigationService.Navigate(typeof(SettingsPage));
             }
-
-            // For some reason if the Board is already selected and select it again the InvokedItem is null.
-            if (args.InvokedItem != null)
+            else
             {
-                // Get the selected Board in the BoardList and then send it over to the BoardPage for display
-                SelectedBoard = BoardList.Where(b => b.BoardName == (string)args.InvokedItem).FirstOrDefault();
-                NavigationService.Navigate(typeof(BoardPage), SelectedBoard.TaskList);
+                // For some reason if the Board is already selected and select it again the InvokedItem is null.
+                if (args.InvokedItem != null)
+                {
+                    // Get the selected Board in the BoardList and then send it over to the BoardPage for display
+                    SelectedBoard = BoardList.Where(b => b.BoardName == (string)args.InvokedItem).FirstOrDefault();
+                    NavigationService.Navigate(typeof(BoardPage), SelectedBoard.TaskList);
+                }
             }
         }
 
