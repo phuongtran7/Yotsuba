@@ -12,7 +12,7 @@
 
 ## About The Project
 
-[![Intro][Documents/Assets/Introduction.gif]](https://github.com/phuongtran7/Yotsuba)
+![Intro](Documents/Assets/Introduction.gif)
 
 Every month I have to sit down and write a report about what I completed. At first, I used Trello to keep track of what I was doing and wrote a small console application to take the Trello board and convert it to an Word document for processing later.
 
