@@ -31,6 +31,13 @@ git clone https://github.com/phuongtran7/Yotsuba.git
 ```
 3. Build the project.
 
+### Built With
+
+1. [Windows Template Studio](https://github.com/microsoft/WindowsTemplateStudio).
+2. [Microsoft SQlite Library](https://docs.microsoft.com/en-us/windows/uwp/data-access/sqlite-databases).
+3. [Windows Community Toolkit](https://github.com/windows-toolkit/WindowsCommunityToolkit).
+4. [Open XML SDK](https://github.com/OfficeDev/Open-XML-SDK).
+
 ### Reason For The Name
 
 It's just that I really love the [Yotsuba&!](https://en.wikipedia.org/wiki/Yotsuba%26!) manga. The entire series is about every day adventure of Yotsuba, an energetic, cheerful girl. From catching cicadas, to riding a bike; from running an errand to camping overnight, she does everything with absolute joy. It's a very cute, fun series to read.

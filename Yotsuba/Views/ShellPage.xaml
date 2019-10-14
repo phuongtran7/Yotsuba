@@ -60,26 +60,26 @@
                                         Icon="Add"
                                         Content="New Task"
                                         Tapped="NewTaskButton_Tapped"
-                                        Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                                        Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}" ToolTipService.ToolTip="New Task"/>
                     <NavigationViewItem x:Name="ExportBoard"
                                         Icon="Share"
                                         Content="Export Board"
                                         Tapped="ExportBoard_Tapped"
-                                        Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                                        Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}" ToolTipService.ToolTip="Export Board"/>
                     <NavigationViewItem x:Name="ReportHourButton"
                                         Icon="Clock"
                                         Content="Report Hour"
                                         Tapped="ReportHourButton_Tapped"
-                                        Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                                        Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}" ToolTipService.ToolTip="Report Hour"/>
                     <NavigationViewItem x:Name="EditBoardButton"
                                         Icon="Edit"
                                         Content="Edit Board"
                                         Tapped="EditBoardButton_Tapped"
-                                        Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}"/>
+                                        Visibility="{x:Bind SelectedBoard, Mode=OneWay, Converter={StaticResource NullToVisibility}}" ToolTipService.ToolTip="Edit Board"/>
                     <NavigationViewItem x:Name="NewBoardButton"
                                         Icon="NewFolder"
                                         Content = "New Board"
-                                        Tapped="NewBoardButton_Tapped"/>
+                                        Tapped="NewBoardButton_Tapped" ToolTipService.ToolTip="Add New Board"/>
                 </StackPanel>
             </winui:NavigationView.PaneFooter>
         </winui:NavigationView>
