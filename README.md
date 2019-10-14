@@ -38,11 +38,13 @@ git clone https://github.com/phuongtran7/Yotsuba.git
 3. [Windows Community Toolkit](https://github.com/windows-toolkit/WindowsCommunityToolkit).
 4. [Open XML SDK](https://github.com/OfficeDev/Open-XML-SDK).
 
+### Usage
+
+See `Wiki` for more detailed usage.
+
 ### Reason For The Name
 
 It's just that I really love the [Yotsuba&!](https://en.wikipedia.org/wiki/Yotsuba%26!) manga. The entire series is about every day adventure of Yotsuba, an energetic, cheerful girl. From catching cicadas, to riding a bike; from running an errand to camping overnight, she does everything with absolute joy. It's a very cute, fun series to read.
-
-Also, the motto of the series is "Enjoy Everything", I hope that I can enjoy every task I put in this as much as Yotsuba enjoys her everyday.
 
 ## License
 
