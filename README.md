@@ -40,7 +40,7 @@ git clone https://github.com/phuongtran7/Yotsuba.git
 
 ### Usage
 
-See `Wiki` for more detailed usage.
+See [Wiki](https://github.com/phuongtran7/Yotsuba/wiki) for more detailed usage.
 
 ### Reason For The Name
 
@@ -48,7 +48,7 @@ It's just that I really love the [Yotsuba&!](https://en.wikipedia.org/wiki/Yotsu
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/phuongtran7/Yotsuba/blob/master/LICENSE) for more information.
 
 ## Contact
 
