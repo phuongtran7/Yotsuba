@@ -10,7 +10,7 @@
   <Identity
     Name="D6B0E043-2500-4F7D-A215-7E16F0B025DD"
     Publisher="CN=Phuong Tran"
-    Version="1.0.0.0" />
+    Version="0.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="D6B0E043-2500-4F7D-A215-7E16F0B025DD" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
