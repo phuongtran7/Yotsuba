@@ -8,13 +8,27 @@
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
-    
+
     <Page.Resources>
         <CollectionViewSource x:Name="itemsCVS" IsSourceGrouped="true"/>
     </Page.Resources>
 
     <Grid Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
-        <GridView x:Name="itemGridView"
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <CommandBar OverflowButtonVisibility="Collapsed" Grid.Row="1">
+            <AppBarButton Icon="Add" Label="New Task" />
+            <AppBarButton Icon="Share" Label="Export Board" />
+            <AppBarButton Icon="Clock" Label="Report Hour" />
+            <AppBarButton Icon="Edit" Label="Edit Board" />
+        </CommandBar>
+
+        <Grid Grid.Row="0">
+            <GridView x:Name="itemGridView"
             Padding="12,0,12,36"
             AutomationProperties.AutomationId="ItemGridView"
             AutomationProperties.Name="Items In Group"
@@ -28,28 +42,28 @@
             SizeChanged="OnItemGridViewSizeChanged"
             SelectionMode="None">
 
-            <GridView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate x:DataType="local:GroupInfoList">
-                            <TextBlock x:Name="WeekTitle_TextBlock"
+                <GridView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate x:DataType="local:GroupInfoList">
+                                <TextBlock x:Name="WeekTitle_TextBlock"
                                            Text="{x:Bind Title}"
                                            Style="{StaticResource SubtitleTextBlockStyle}"/>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </GridView.GroupStyle>
-        </GridView>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </GridView.GroupStyle>
+            </GridView>
 
-        <SplitView x:Name="EditTaskSplitView"
+            <SplitView x:Name="EditTaskSplitView"
                    IsPaneOpen="False"
                    DisplayMode="Overlay"
                    PanePlacement="Left">
-            <SplitView.Pane>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
-                    <StackPanel Margin="10" Orientation="Vertical">
-                        <TextBlock Text="Edit Task" Style="{StaticResource TitleTextBlockStyle}"/>
-                        <TextBox x:Name="EditTaskName_TextBox" 
+                <SplitView.Pane>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
+                        <StackPanel Margin="10" Orientation="Vertical">
+                            <TextBlock Text="Edit Task" Style="{StaticResource TitleTextBlockStyle}"/>
+                            <TextBox x:Name="EditTaskName_TextBox" 
                              Header= "Name" 
                              Margin="10"
                              Width="256" 
@@ -60,7 +74,7 @@
                              AcceptsReturn="True"
                              TextWrapping="Wrap"
                              ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-                        <TextBox x:Name="EditTaskDescription_TextBox" 
+                            <TextBox x:Name="EditTaskDescription_TextBox" 
                              Header= "Description" 
                              Margin="10" 
                              Height="100" 
@@ -72,7 +86,7 @@
                              AcceptsReturn="True"
                              TextWrapping="Wrap"
                              ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-                        <ComboBox x:Name="TagSelector"
+                            <ComboBox x:Name="TagSelector"
                              IsEditable="true"
                              Header="Belongs to:" 
                              Height="60" 
@@ -81,29 +95,32 @@
                              SelectedItem="{x:Bind CurrentTag, Mode=TwoWay}"
                              TextSubmitted="TagSelector_TextSubmitted"
                              Margin="10"/>
-                        <TextBlock x:Name="EditTaskCategoryTextBox" 
+                            <TextBlock x:Name="EditTaskCategoryTextBox" 
                              Margin="10" 
                              Width="256" 
                              HorizontalAlignment="Left"
                              Text="In the week of"/>
-                        <CalendarView DisplayMode="Month" 
+                            <CalendarView DisplayMode="Month" 
                                   x:Name="WeekPicker" 
                                   SelectionMode="Multiple"
                                   HorizontalAlignment="Center"
                                   SelectedDatesChanged="WeekPicker_SelectedDatesChanged"/>
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Content="Save" Margin="10" Click="EditTaskSaveButton_Clicked"/>
-                            <Button Content="Cancel" Margin="10" Click="EditTaskCancelButton_Click"/>
-                            <Button Content="Delete" Margin="10" Click="EditTaskDeleteButton_Click"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="Save" Margin="10" Click="EditTaskSaveButton_Clicked"/>
+                                <Button Content="Cancel" Margin="10" Click="EditTaskCancelButton_Click"/>
+                                <Button Content="Delete" Margin="10" Click="EditTaskDeleteButton_Click"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </ScrollViewer>
-            </SplitView.Pane>
-        </SplitView>
+                    </ScrollViewer>
+                </SplitView.Pane>
+            </SplitView>
 
-        <winui:TeachingTip x:Name="EmptyTip"
+            <winui:TeachingTip x:Name="EmptyTip"
                            IsLightDismissEnabled="True"/>
+
+        </Grid>
+
 
         <!--  Visual states reflect the application's window size  -->
         <VisualStateManager.VisualStateGroups>
